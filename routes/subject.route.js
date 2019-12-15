@@ -44,31 +44,17 @@ subjectRoute.route('/admin/subjects/:id').put((req, res, next) => {
   })
 })
 
-// Get single Subject
-// subjectRoute.route('/read/:id').get((req, res) => {
-//     Subject.findById(req.params.id, (error, data) => {
-//     if (error) {
-//       return next(error)
-//     } else {
-//       res.json(data)
-//     }
-//   })
-// })
-
-
-
-
 // Delete Subject
-// subjectRoute.route('/delete/:id').delete((req, res, next) => {
-//     Subject.findOneAndRemove(req.params.id, (error, data) => {
-//     if (error) {
-//       return next(error);
-//     } else {
-//       res.status(200).json({
-//         msg: data
-//       })
-//     }
-//   })
-// })
+subjectRoute.route('/admin/subjects/:id').delete((req, res, next) => {
+    Subject.findOneAndRemove(req.params.id, (error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      res.status(200).json({
+        msg: data
+      })
+    }
+  })
+})
 
 module.exports = subjectRoute;

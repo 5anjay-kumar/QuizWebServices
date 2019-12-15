@@ -18,8 +18,7 @@ teacherRoute.route('/admin/teachers').get((req, res) => {
   })
 });
 
-/////////////////////////////////////////////////////
-// Add Employee
+// Add Teacher
 teacherRoute.route('/admin/teachers').post((req, res, next) => {
   Teacher.create(req.body, (error, data) => {
     if (error) {
@@ -39,7 +38,7 @@ teacherRoute.route('/admin/teachers/:id/subjects').get((req, res) => {
     }
   }).populate([{ path: 'teacher' }, { path: 'subject' }, { path: 'batch' }])
     .exec(function (err, data) {
-      console.log(data);
+      // console.log(data);
     });
 });
 
@@ -53,9 +52,22 @@ teacherRoute.route('/admin/teachers/subjects').post((req, res, next) => {
   })
 });
 
+teacherRoute.route('/admin/teachers/subjects/:id').put((req, res, next) => {
+  TeacherSubjectBatch.findByIdAndUpdate(req.params.id, {
+    $set: req.body
+  }, (error, data) => {
+    if (error) {
+      return next(error);
+      console.log(error)
+    } else {
+      res.json(data)
+      console.log('Data updated successfully')
+    }
+  })
+})
+
 // Update teacher
 teacherRoute.route('/admin/teachers/:id').put((req, res, next) => {
-  console.log(req.body);
   Teacher.findByIdAndUpdate(req.params.id, {
     $set: req.body
   }, (error, data) => {
@@ -69,32 +81,17 @@ teacherRoute.route('/admin/teachers/:id').put((req, res, next) => {
   })
 })
 
-
-// Get single teacher
-teacherRoute.route('/admin/teachers/:id').get((req, res) => {
-  Teacher.findById(req.params.id, (error, data) => {
+// Delete teacher
+teacherRoute.route('/admin/teachers/:id').delete((req, res, next) => {
+    Teacher.findOneAndRemove(req.params.id, (error, data) => {
     if (error) {
-      return next(error)
+      return next(error);
     } else {
-      res.json(data)
+      res.status(200).json({
+        msg: data
+      })
     }
   })
 })
-
-
-
-
-// Delete teacher
-// teacherRoute.route('/delete/:id').delete((req, res, next) => {
-//     Teacher.findOneAndRemove(req.params.id, (error, data) => {
-//     if (error) {
-//       return next(error);
-//     } else {
-//       res.status(200).json({
-//         msg: data
-//       })
-//     }
-//   })
-// })
 
 module.exports = teacherRoute;

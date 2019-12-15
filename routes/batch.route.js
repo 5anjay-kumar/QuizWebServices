@@ -44,30 +44,17 @@ batchRoute.route('/admin/batches/:id').put((req, res, next) => {
   })
 })
 
-
-// Get single Batch
-// batchRoute.route('/read/:id').get((req, res) => {
-//     Batch.findById(req.params.id, (error, data) => {
-//     if (error) {
-//       return next(error)
-//     } else {
-//       res.json(data)
-//     }
-//   })
-// })
-
-
 // Delete Batch
-// batchRoute.route('/delete/:id').delete((req, res, next) => {
-//     Batch.findOneAndRemove(req.params.id, (error, data) => {
-//     if (error) {
-//       return next(error);
-//     } else {
-//       res.status(200).json({
-//         msg: data
-//       })
-//     }
-//   })
-// })
+batchRoute.route('/admin/batches/:id').delete((req, res, next) => {
+    Batch.findOneAndRemove(req.params.id, (error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      res.status(200).json({
+        msg: data
+      })
+    }
+  })
+})
 
 module.exports = batchRoute;

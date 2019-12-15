@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const mongoose = require("mongoose");
 const studentRoute = express.Router();
 
 // Subject model
@@ -14,7 +15,24 @@ studentRoute.route('/admin/students').get((req, res) => {
     } else {
       res.json(data)
     }
-  })
+  }).populate({ path: 'batch' })
+    .exec(function (err, data) {
+      // console.log(data);
+    });
+});
+
+studentRoute.route('/admin/students/bybatch').get((req, res) => {
+  console.log(req.query.batch);
+  Student.find({ batch: mongoose.Types.ObjectId(req.query.batch) }, (error, data) => {
+    if (error) {
+      return next(error)
+    } else {
+      res.json(data)
+    }
+  }).populate({ path: 'batch' })
+    .exec(function (err, data) {
+      // console.log(data);
+    });
 });
 
 /////////////////////////////////////////////////////
@@ -45,32 +63,17 @@ studentRoute.route('/admin/students/:id').put((req, res, next) => {
   })
 })
 
-
-// Get single Subject
-// studentRoute.route('/read/:id').get((req, res) => {
-//     Subject.findById(req.params.id, (error, data) => {
-//     if (error) {
-//       return next(error)
-//     } else {
-//       res.json(data)
-//     }
-//   })
-// })
-
-
-
-
 // Delete Subject
-// studentRoute.route('/delete/:id').delete((req, res, next) => {
-//     Subject.findOneAndRemove(req.params.id, (error, data) => {
-//     if (error) {
-//       return next(error);
-//     } else {
-//       res.status(200).json({
-//         msg: data
-//       })
-//     }
-//   })
-// })
+studentRoute.route('/admin/students/:id').delete((req, res, next) => {
+  Student.findOneAndRemove(req.params.id, (error, data) => {
+    if (error) {
+      return next(error);
+    } else {
+      res.status(200).json({
+        msg: data
+      })
+    }
+  })
+})
 
 module.exports = studentRoute;
