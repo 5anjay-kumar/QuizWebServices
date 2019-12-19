@@ -16,7 +16,6 @@ batchRoute.route('/admin/batches').get((req, res) => {
   })
 });
 
-/////////////////////////////////////////////////////
 // Add Batch
 batchRoute.route('/admin/batches').post((req, res, next) => {
     Batch.create(req.body, (error, data) => {
@@ -36,23 +35,9 @@ batchRoute.route('/admin/batches/:id').put((req, res, next) => {
   }, (error, data) => {
     if (error) {
       return next(error);
-      console.log(error)
     } else {
       res.json(data)
       console.log('Data updated successfully')
-    }
-  })
-})
-
-// Delete Batch
-batchRoute.route('/admin/batches/:id').delete((req, res, next) => {
-    Batch.findOneAndRemove(req.params.id, (error, data) => {
-    if (error) {
-      return next(error);
-    } else {
-      res.status(200).json({
-        msg: data
-      })
     }
   })
 })

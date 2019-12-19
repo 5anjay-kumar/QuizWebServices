@@ -16,10 +16,8 @@ subjectRoute.route('/admin/subjects').get((req, res) => {
   })
 });
 
-/////////////////////////////////////////////////////
 // Add Subject
 subjectRoute.route('/admin/subjects').post((req, res, next) => {
-  console.log(req);
   Subject.create(req.body, (error, data) => {
   if (error) {
     return next(error)
@@ -36,23 +34,9 @@ subjectRoute.route('/admin/subjects/:id').put((req, res, next) => {
   }, (error, data) => {
     if (error) {
       return next(error);
-      console.log(error)
     } else {
       res.json(data)
       console.log('Data updated successfully')
-    }
-  })
-})
-
-// Delete Subject
-subjectRoute.route('/admin/subjects/:id').delete((req, res, next) => {
-    Subject.findOneAndRemove(req.params.id, (error, data) => {
-    if (error) {
-      return next(error);
-    } else {
-      res.status(200).json({
-        msg: data
-      })
     }
   })
 })

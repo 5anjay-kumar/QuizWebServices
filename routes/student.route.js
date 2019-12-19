@@ -5,7 +5,6 @@ const studentRoute = express.Router();
 
 // Subject model
 let Student = require('../models/Student');
-let Batch = require("../models/Batch");
 
 // Get All Subject
 studentRoute.route('/admin/students').get((req, res) => {
@@ -22,7 +21,6 @@ studentRoute.route('/admin/students').get((req, res) => {
 });
 
 studentRoute.route('/admin/students/bybatch').get((req, res) => {
-  console.log(req.query.batch);
   Student.find({ batch: mongoose.Types.ObjectId(req.query.batch) }, (error, data) => {
     if (error) {
       return next(error)
@@ -31,11 +29,9 @@ studentRoute.route('/admin/students/bybatch').get((req, res) => {
     }
   }).populate({ path: 'batch' })
     .exec(function (err, data) {
-      // console.log(data);
     });
 });
 
-/////////////////////////////////////////////////////
 // Add Subject
 studentRoute.route('/admin/students').post((req, res, next) => {
   Student.create(req.body, (error, data) => {

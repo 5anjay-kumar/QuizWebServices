@@ -1,9 +1,12 @@
-const express = require("express");
-const port = process.env.PORT || 3001;
-const mongoose = require("mongoose");
-const cors = require('cors');
-const bodyParser = require("body-parser");
-const router = express();
+const express = require("express"),
+      port = process.env.PORT || 3001,
+      mongoose = require("mongoose"),
+      cors = require('cors'),
+      bodyParser = require("body-parser"),
+      router = express(),
+      passport = require("passport"),
+      localStategy = require("passport-local"),
+      passportLocalMongoose = require("passport-local-mongoose")
 
 mongoose.connect("mongodb://localhost/quiz", { useUnifiedTopology: true, useNewUrlParser: true });
 
@@ -21,7 +24,6 @@ router.use('/api', teacherRoute);
 router.use('/api', batchRoute);
 router.use('/api', subjectRoute);
 router.use('/api', studentRoute);
-
 
 router.get("/login", (req, res) => {
     res.send("Hello World");

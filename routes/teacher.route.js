@@ -29,6 +29,7 @@ teacherRoute.route('/admin/teachers').post((req, res, next) => {
   })
 });
 
+//Get Teacher's Subjects
 teacherRoute.route('/admin/teachers/:id/subjects').get((req, res) => {
   TeacherSubjectBatch.find({ teacher: mongoose.Types.ObjectId(req.params.id) }, (error, data) => {
     if (error) {
@@ -42,6 +43,7 @@ teacherRoute.route('/admin/teachers/:id/subjects').get((req, res) => {
     });
 });
 
+//Add Teacher Subjects
 teacherRoute.route('/admin/teachers/subjects').post((req, res, next) => {
   TeacherSubjectBatch.create(req.body, (error, data) => {
     if (error) {
@@ -51,20 +53,6 @@ teacherRoute.route('/admin/teachers/subjects').post((req, res, next) => {
     }
   })
 });
-
-teacherRoute.route('/admin/teachers/subjects/:id').put((req, res, next) => {
-  TeacherSubjectBatch.findByIdAndUpdate(req.params.id, {
-    $set: req.body
-  }, (error, data) => {
-    if (error) {
-      return next(error);
-      console.log(error)
-    } else {
-      res.json(data)
-      console.log('Data updated successfully')
-    }
-  })
-})
 
 // Update teacher
 teacherRoute.route('/admin/teachers/:id').put((req, res, next) => {
@@ -77,19 +65,6 @@ teacherRoute.route('/admin/teachers/:id').put((req, res, next) => {
     } else {
       res.json(data)
       console.log('Data updated successfully')
-    }
-  })
-})
-
-// Delete teacher
-teacherRoute.route('/admin/teachers/:id').delete((req, res, next) => {
-    Teacher.findOneAndRemove(req.params.id, (error, data) => {
-    if (error) {
-      return next(error);
-    } else {
-      res.status(200).json({
-        msg: data
-      })
     }
   })
 })
