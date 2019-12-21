@@ -8,7 +8,7 @@ var Admin = new Schema({
     lastName: {
         type: String, required: true
     },
-    username: {
+    email: {
         type: String, required: true
     },
     password: {
